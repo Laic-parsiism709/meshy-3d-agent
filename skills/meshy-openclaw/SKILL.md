@@ -1,19 +1,20 @@
 ---
-name: meshy-3d
+name: meshy-3d-agent
 description: Generate 3D models, textures, images, rig characters, animate them, and prepare for 3D printing using the Meshy AI API. Handles API key detection, task creation, polling, downloading, and full 3D print pipeline with Bambu Studio integration. Use when the user asks to create 3D models, convert text/images to 3D, texture models, rig or animate characters, 3D print a model, or interact with the Meshy API.
-license: MIT
+license: MIT-0
 compatibility: Requires Python 3 with requests package. Compatible with OpenClaw and all Agent Skills tools.
 metadata:
-  clawdbot:
+  openclaw:
+    primaryEnv: MESHY_API_KEY
     requires:
       env:
-        - name: MESHY_API_KEY
-          description: Meshy AI API key (starts with msy_). Required for all API calls. Get one at https://www.meshy.ai/settings/api
-          required: true
-      binaries:
+        - MESHY_API_KEY
+      bins:
         - python3
         - curl
-    files: []
+    install:
+      - kind: uv
+        package: requests
 allowed-tools: Bash, Write
 ---
 
@@ -634,3 +635,9 @@ Task `FAILED` messages:
 - [ ] Ran with `python3 -u` for unbuffered output
 - [ ] Reported file paths, formats, task IDs, and balance
 - [ ] Suggested next steps
+
+---
+
+## Additional Resources
+
+For the complete API endpoint reference including all parameters, response schemas, and error codes, read [reference.md](reference.md).
