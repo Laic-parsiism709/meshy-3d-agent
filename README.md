@@ -36,14 +36,83 @@ Full 3D generation lifecycle: API key setup, task creation, polling, downloading
 
 > The printing skill depends on the generation skill's script template and environment setup.
 
-## Installation
+## Quick Install
+
+One command to install all skills:
+
+```bash
+npx skills add meshy-dev/meshy-3d-agent
+```
+
+Then set your API key (pick any method below):
+
+> Or simply start using the skill — when the agent loads it, it will detect that no API key is configured, ask you for it, and set it up automatically.
+
+<details>
+<summary>macOS / Linux</summary>
+
+**Option A: Global (recommended)** — add to your shell profile so it persists across sessions:
+
+```bash
+nano ~/.zshrc
+```
+
+Add this line at the end, save and exit (`Ctrl+O`, `Enter`, `Ctrl+X`):
+
+```bash
+export MESHY_API_KEY="msy_YOUR_API_KEY"
+```
+
+Then reload:
+
+```bash
+source ~/.zshrc
+```
+
+**Option B: Project-local** — create a `.env` file in your project root:
+
+```bash
+echo 'MESHY_API_KEY=msy_YOUR_API_KEY' > .env
+```
+
+> Remember to add `.env` to your `.gitignore` to avoid committing your key.
+
+</details>
+
+<details>
+<summary>Windows</summary>
+
+**Option A: Permanent (recommended)** — set via System Environment Variables:
+
+```powershell
+setx MESHY_API_KEY "msy_YOUR_API_KEY"
+```
+
+Restart your terminal after running this command.
+
+**Option B: Current session only:**
+
+```powershell
+$env:MESHY_API_KEY = "msy_YOUR_API_KEY"
+```
+
+**Option C: Project-local** — create a `.env` file in your project root:
+
+```
+MESHY_API_KEY=msy_YOUR_API_KEY
+```
+
+</details>
 
 ### Prerequisites
 
 - A Meshy API key ([get one here](https://www.meshy.ai/settings/api) — requires Pro plan or above)
 - Python 3 with `requests` package (`pip install requests`)
 
-### Cursor
+### Manual Installation
+
+<details>
+<summary>Cursor</summary>
 
 ```bash
 # Core (required)
@@ -55,7 +124,10 @@ cp skills/meshy-3d-generation/reference.md .cursor/skills/meshy-reference.md
 cp skills/meshy-3d-printing/SKILL.md .cursor/skills/meshy-3d-printing.md
 ```
 
-### Claude Code
+</details>
+
+<details>
+<summary>Claude Code</summary>
 
 ```bash
 # Core (required)
@@ -67,11 +139,7 @@ cp skills/meshy-3d-generation/reference.md .claude/skills/meshy-reference.md
 cp skills/meshy-3d-printing/SKILL.md .claude/skills/meshy-3d-printing.md
 ```
 
-### API Key
-
-```bash
-export MESHY_API_KEY="msy_YOUR_API_KEY"
-```
+</details>
 
 ## Skill vs MCP Server
 

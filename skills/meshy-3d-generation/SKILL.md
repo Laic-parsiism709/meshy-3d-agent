@@ -124,6 +124,7 @@ Tell the user:
 
 Once the user provides their key, set it and verify:
 
+**macOS (zsh):**
 ```bash
 export MESHY_API_KEY="msy_PASTE_KEY_HERE"
 
@@ -140,6 +141,46 @@ if [ "$STATUS" = "200" ]; then
 else
   echo "Key invalid (HTTP $STATUS). Check the key and try again."
 fi
+```
+
+**Linux (bash):**
+```bash
+export MESHY_API_KEY="msy_PASTE_KEY_HERE"
+
+# Verify (same as above), then persist to ~/.bashrc
+STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+  -H "Authorization: Bearer $MESHY_API_KEY" \
+  https://api.meshy.ai/openapi/v1/balance)
+
+if [ "$STATUS" = "200" ]; then
+  BALANCE=$(curl -s -H "Authorization: Bearer $MESHY_API_KEY" https://api.meshy.ai/openapi/v1/balance)
+  echo "Key valid. $BALANCE"
+  echo 'export MESHY_API_KEY="msy_PASTE_KEY_HERE"' >> ~/.bashrc
+  echo "Persisted to ~/.bashrc"
+else
+  echo "Key invalid (HTTP $STATUS). Check the key and try again."
+fi
+```
+
+**Windows (PowerShell):**
+```powershell
+$env:MESHY_API_KEY = "msy_PASTE_KEY_HERE"
+
+# Verify
+$status = (Invoke-WebRequest -Uri "https://api.meshy.ai/openapi/v1/balance" -Headers @{Authorization="Bearer $env:MESHY_API_KEY"} -UseBasicParsing).StatusCode
+if ($status -eq 200) {
+    Write-Host "Key valid."
+    # Persist permanently
+    [System.Environment]::SetEnvironmentVariable("MESHY_API_KEY", $env:MESHY_API_KEY, "User")
+    Write-Host "Persisted to user environment variables. Restart terminal to take effect."
+} else {
+    Write-Host "Key invalid (HTTP $status). Check the key and try again."
+}
+```
+
+**Alternative (all platforms):** Create a `.env` file in your project root:
+```
+MESHY_API_KEY=msy_PASTE_KEY_HERE
 ```
 
 ---
