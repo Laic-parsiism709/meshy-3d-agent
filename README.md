@@ -1,6 +1,6 @@
 # Meshy 3D Agent
 
-AI agent skills for the [Meshy AI](https://www.meshy.ai) 3D generation platform. Enables AI coding assistants (Cursor, Claude Code) to generate 3D models, textures, images, rig characters, animate them, and prepare models for 3D printing — no MCP server required.
+AI agent skills for the [Meshy AI](https://www.meshy.ai) 3D generation platform. Enables AI coding assistants (Cursor, Claude Code, OpenClaw) to generate 3D models, textures, images, rig characters, animate them, and prepare models for 3D printing — no MCP server required.
 
 ## How It Works
 
@@ -35,6 +35,17 @@ Full 3D generation lifecycle: API key setup, task creation, polling, downloading
 | Multi-Color Guidance | Manual color workflow (automated API coming soon) | 0-10 |
 
 > The printing skill depends on the generation skill's script template and environment setup.
+
+### [`meshy-openclaw`](skills/meshy-openclaw/) (OpenClaw / ClawHub)
+
+A single unified skill for the [OpenClaw](https://clawhub.ai) ecosystem. Combines generation + printing into one file, with OpenClaw-compatible `metadata.clawdbot` frontmatter and a full SECURITY MANIFEST.
+
+| Capability | Description | Credits |
+|-----------|-------------|---------|
+| All generation | Text/Image to 3D, Retexture, Remesh, Rig, Animate, Text/Image to Image | 3–30 |
+| 3D printing | OBJ download + Bambu Studio integration | 0 |
+
+> Designed for ClawHub publishing. API key is stored only in `.env` in the current working directory — no shell profile access.
 
 ## Quick Install
 
@@ -110,6 +121,19 @@ MESHY_API_KEY=msy_YOUR_API_KEY
 - Python 3 with `requests` package (`pip install requests`)
 
 ### Manual Installation
+
+<details>
+<summary>OpenClaw</summary>
+
+**Option A: Via ClawHub**
+
+```bash
+npx clawhub install meshy-dev/meshy-3d-agent
+```
+
+**Option B: Manual** — copy the `skills/meshy-openclaw/` folder to your OpenClaw skills directory.
+
+</details>
 
 <details>
 <summary>Cursor</summary>
