@@ -1,20 +1,16 @@
 # Meshy Agent Skill
 
-AI agent skill for the [Meshy AI](https://www.meshy.ai) 3D generation platform. Enables AI coding assistants (Cursor, Claude Code) to generate 3D models, textures, images, rig characters, and animate them through direct API calls — no MCP server required.
+AI agent skills for the [Meshy AI](https://www.meshy.ai) 3D generation platform. Enables AI coding assistants (Cursor, Claude Code) to generate 3D models, textures, images, rig characters, animate them, and prepare models for 3D printing — no MCP server required.
 
 ## How It Works
 
-This is a **pure Markdown skill** — no server, no dependencies, no build step. Your AI assistant reads the skill file and gains the ability to interact with the Meshy API directly using shell commands and Python scripts.
+These are **pure Markdown skills** — no server, no dependencies, no build step. Your AI assistant reads the skill files and gains the ability to interact with the Meshy API directly using shell commands and Python scripts.
 
-The skill handles:
-- API key detection and setup
-- Task creation, polling with exponential backoff, and downloading
-- Multi-step pipelines (preview → refine → rig → animate)
-- Smart file organization in `meshy_output/` directory
-- Cost awareness and credit tracking
-- 3D printing workflows
+## Skills
 
-## Capabilities
+### `meshy-3d-generation` (core)
+
+Full 3D generation lifecycle: API key setup, task creation, polling, downloading, and multi-step pipelines.
 
 | Capability | Description | Credits |
 |-----------|-------------|---------|
@@ -26,7 +22,19 @@ The skill handles:
 | Animation | Apply custom animations to rigged characters | 3 |
 | Text to Image | Generate 2D images from text | 3-9 |
 | Image to Image | Transform existing images | 3-9 |
-| 3D Printing | Download for printing, open in Bambu Studio | 0 |
+
+### `meshy-3d-printing` (optional)
+
+3D printing workflow: printability checks, slicer integration (Bambu Studio), multi-color guidance.
+
+| Capability | Description | Credits |
+|-----------|-------------|---------|
+| Print Pipeline | Text/Image to 3D → OBJ download → Slicer | 20 |
+| Printability Check | Wall thickness, overhangs, manifold mesh review | 0 |
+| Slicer Integration | Open in Bambu Studio via URL scheme | 0 |
+| Multi-Color Guidance | Color segmentation for AMS/MMU printers | 0-10 |
+
+> Install the generation skill for full functionality. The printing skill depends on its script template and environment setup.
 
 ## Installation
 
@@ -37,43 +45,41 @@ The skill handles:
 
 ### Cursor
 
-1. Create the skills directory in your project:
-   ```bash
-   mkdir -p .cursor/skills
-   ```
+```bash
+mkdir -p .cursor/skills
 
-2. Copy the skill files:
-   ```bash
-   cp SKILL.md .cursor/skills/meshy-api-skill.md
-   cp reference.md .cursor/skills/meshy-reference.md
-   ```
+# Core (required)
+cp meshy-3d-generation.md .cursor/skills/
+cp reference.md .cursor/skills/meshy-reference.md
 
-3. Set your API key:
-   ```bash
-   export MESHY_API_KEY="msy_YOUR_API_KEY"
-   ```
+# 3D Printing (optional)
+cp meshy-3d-printing.md .cursor/skills/
+```
 
-4. Ask Cursor to generate 3D models — it will automatically use the skill.
+Set your API key:
+
+```bash
+export MESHY_API_KEY="msy_YOUR_API_KEY"
+```
 
 ### Claude Code
 
-1. Create the skills directory in your project:
-   ```bash
-   mkdir -p .claude/skills
-   ```
+```bash
+mkdir -p .claude/skills
 
-2. Copy the skill files:
-   ```bash
-   cp SKILL.md .claude/skills/meshy-api-skill.md
-   cp reference.md .claude/skills/meshy-reference.md
-   ```
+# Core (required)
+cp meshy-3d-generation.md .claude/skills/
+cp reference.md .claude/skills/meshy-reference.md
 
-3. Set your API key:
-   ```bash
-   export MESHY_API_KEY="msy_YOUR_API_KEY"
-   ```
+# 3D Printing (optional)
+cp meshy-3d-printing.md .claude/skills/
+```
 
-4. Ask Claude Code to generate 3D models — it will automatically use the skill.
+Set your API key:
+
+```bash
+export MESHY_API_KEY="msy_YOUR_API_KEY"
+```
 
 ### Test Mode
 
@@ -87,7 +93,7 @@ export MESHY_API_KEY="msy_dummy_api_key_for_test_mode_12345678"
 
 | Feature | Agent Skill (this repo) | [MCP Server](https://github.com/Arlieeee/meshy-mcp-server) |
 |---------|------------------------|-------------------------------------------------------------|
-| Setup | Copy 2 Markdown files | `npx meshy-mcp-server` |
+| Setup | Copy Markdown files | `npx meshy-mcp-server` |
 | Dependencies | Python 3 + requests | Node.js >= 18 |
 | How it works | AI reads instructions, makes API calls directly | Dedicated server process with structured tools |
 | IDE support | Cursor, Claude Code | Any MCP-compatible client |
@@ -100,7 +106,8 @@ Both approaches provide the same Meshy API capabilities. Choose based on your pr
 
 | File | Description |
 |------|-------------|
-| `SKILL.md` | Main skill file with workflow instructions, code templates, and 3D printing guidance |
+| `meshy-3d-generation.md` | Core skill: environment setup, all generation workflows, rigging, animation |
+| `meshy-3d-printing.md` | Print skill: printability checks, slicer integration, multi-color guidance |
 | `reference.md` | Complete Meshy API reference with all endpoints, parameters, and examples |
 
 ## License

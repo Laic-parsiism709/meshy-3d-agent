@@ -1,10 +1,10 @@
 ---
-name: meshy-api-skill
-description: Communicate with the Meshy AI API to generate 3D models, textures, images, rig characters, and animate them. Handles API key detection, setup, and all generation workflows via direct HTTP calls. Use when the user asks to create 3D models, convert text/images to 3D, texture models, rig or animate characters, or interact with the Meshy API.
+name: meshy-3d-generation
+description: Generate 3D models, textures, images, rig characters, and animate them using the Meshy AI API. Handles API key detection, setup, and all generation workflows via direct HTTP calls. Use when the user asks to create 3D models, convert text/images to 3D, texture models, rig or animate characters, or interact with the Meshy API.
 allowed-tools: Bash, Read, Write, Glob, Grep
 ---
 
-# Meshy API Skill
+# Meshy 3D Generation
 
 Directly communicate with the Meshy AI API to generate 3D assets. This skill handles the complete lifecycle: environment setup, API key detection, task creation, polling, downloading, and chaining multi-step pipelines.
 
@@ -526,100 +526,7 @@ After task succeeds, report:
    - Model done → "Want to rig this character for animation?"
    - Rigged → "Want to apply an animation?"
    - Any model → "Want to remesh / export to another format?"
-
----
-
-## 3D Printing Workflow
-
-### Intent Detection
-
-Proactively suggest 3D printing when these keywords appear in the user's request:
-- **Direct**: print, 3d print, slicer, slice, bambu, orca, prusa, cura
-- **Implied**: figurine, miniature, statue, physical model, desk toy, phone stand
-
-### Text-to-3D Print Pipeline
-
-| Step | Action | Credits | Notes |
-|------|--------|---------|-------|
-| 1. Preview | Text to 3D (`mode: "preview"`) | 20 | Untextured mesh (white model) |
-| 2. Printability Check | Review checklist below | 0 | Manual review |
-| 3. Download OBJ | Download model as OBJ | 0 | Slicer-compatible format |
-| 4. Open in Bambu Studio | URL scheme or manual import | 0 | See script below |
-| 5. (Optional) Multi-color | Refine + color guidance | 10 | See multi-color section |
-
-### Image-to-3D Print Pipeline
-
-| Step | Action | Credits | Notes |
-|------|--------|---------|-------|
-| 1. Generate | Image to 3D with `should_texture: False` | 20 | Untextured mesh |
-| 2. Printability Check | Review checklist below | 0 | Manual review |
-| 3. Download OBJ | Download model as OBJ | 0 | Slicer-compatible format |
-| 4. Open in Bambu Studio | URL scheme or manual import | 0 | See script below |
-| 5. (Optional) Multi-color | Retexture + color guidance | 10 | See multi-color section |
-
-### Print Download + Slicer Script
-
-```python
-import subprocess, urllib.parse
-
-# After task SUCCEEDED, download OBJ format for printing
-obj_url = task["model_urls"].get("obj")
-if not obj_url:
-    print("OBJ format not available. Available:", list(task["model_urls"].keys()))
-    print("Download GLB and import manually into your slicer.")
-    obj_url = task["model_urls"].get("glb")
-
-download(obj_url, os.path.join(project_dir, "model.obj"))
-
-# --- Send to Bambu Studio via URL scheme ---
-def open_in_bambu_studio(model_url, file_name="meshy_model.obj"):
-    """Open model in Bambu Studio via URL scheme."""
-    url_with_fragment = f"{model_url}#/{file_name}"
-    if sys.platform == "darwin":
-        slicer_url = f"bambustudioopen://{urllib.parse.quote(url_with_fragment, safe='')}"
-    else:
-        slicer_url = f"bambustudio://open?file={urllib.parse.quote(url_with_fragment, safe='')}"
-    if sys.platform == "darwin":
-        subprocess.run(["open", slicer_url])
-    else:
-        print(f"Open in Bambu Studio: {slicer_url}")
-
-# open_in_bambu_studio(obj_url)
-```
-
-### Printability Checklist
-
-Before printing, review these items (automated analysis coming soon):
-
-| Check | Recommendation |
-|-------|---------------|
-| Wall thickness | Minimum 1.2mm for FDM, 0.8mm for resin |
-| Overhangs | Keep below 45° or add supports |
-| Manifold mesh | Ensure watertight with no holes |
-| Minimum detail | At least 0.4mm for FDM, 0.05mm for resin |
-| Base stability | Flat base or add brim/raft in slicer |
-| Floating parts | All parts connected or printed separately |
-
-**Recommendations**: Import into your slicer to check for mesh errors. Use the slicer's built-in repair tool if needed. Consider hollowing figurines to save material.
-
-### Key Rules for Print Workflow
-
-- **Default download format is OBJ** for slicer compatibility (3MF not yet available from API)
-- **Agent skill currently only supports sending to Bambu Studio.** For more slicer options (OrcaSlicer, Cura, Creality Print, etc.), use the webapp at https://www.meshy.ai
-- After opening in slicer, remind user to check print settings (layer height, infill, supports)
-- **If OBJ is not available**: Download GLB and guide user to import manually
-- **Manual import into Bambu Studio** (when URL scheme fails): File → Import → select file
-
-### Multi-Color Printing Guidance
-
-Automated multi-color processing is not yet available. Current approach:
-
-1. Use the **Retexture** API (10 credits) to apply distinct color regions to your model
-2. Download the model as OBJ
-3. In your slicer's color painting tool, assign filament colors to different regions
-4. Slice and print with your multi-color setup (e.g., Bambu Lab AMS, Prusa MMU)
-
-For resin printing, consider painting the model after printing for best color results.
+   - Any model → "Want to 3D print this model?" (requires `meshy-3d-printing` skill)
 
 ---
 
@@ -648,7 +555,6 @@ Task `FAILED` messages:
 - **Format availability**: Check keys in `model_urls` before downloading — not all formats are always present.
 - **Timestamps**: All API timestamps are Unix epoch **milliseconds**.
 - **Large files**: Refined models can be 50–200 MB. Use streaming downloads with timeouts.
-- **3MF format**: Not yet available from the API. For 3D printing, use OBJ format (all major slicers support it). 3MF support coming soon.
 
 ---
 
@@ -661,7 +567,6 @@ Task `FAILED` messages:
 - [ ] Ran script with `python3 -u` for unbuffered output
 - [ ] Reported file paths, formats, task IDs, and balance
 - [ ] Suggested next steps
-- [ ] If 3D printing: downloaded OBJ, presented slicer options, showed printability checklist
 
 ## Additional Resources
 
