@@ -1,4 +1,4 @@
-# Meshy AI Agent
+# Meshy 3D Agent
 
 AI agent skills for the [Meshy AI](https://www.meshy.ai) 3D generation platform. Enables AI coding assistants (Cursor, Claude Code) to generate 3D models, textures, images, rig characters, animate them, and prepare models for 3D printing — no MCP server required.
 
@@ -83,7 +83,7 @@ export MESHY_API_KEY="msy_dummy_api_key_for_test_mode_12345678"
 
 ## Skill vs MCP Server
 
-| Feature | Agent Skill (this repo) | [MCP Server](https://github.com/Arlieeee/meshy-mcp-server) |
+| Feature | Agent Skill (this repo) | [MCP Server](https://github.com/meshy-dev/meshy-mcp-server) |
 |---------|------------------------|-------------------------------------------------------------|
 | Setup | Copy Markdown files | `npx meshy-mcp-server` |
 | Dependencies | Python 3 + requests | Node.js >= 18 |

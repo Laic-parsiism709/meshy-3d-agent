@@ -1,6 +1,12 @@
 ---
 name: meshy-3d-printing
 description: 3D print models generated with Meshy AI. Handles printability analysis, slicer integration (Bambu Studio), multi-color printing guidance, and print-optimized download workflows. Use when the user mentions 3D printing, slicing, Bambu, OrcaSlicer, Prusa, Cura, or wants to print a figurine, miniature, or physical model.
+license: MIT
+compatibility: Requires Python 3 with requests package. Depends on meshy-3d-generation skill. Works with Claude Code, Cursor, and all Agent Skills compatible tools.
+metadata:
+  author: meshy-dev
+  version: "1.0.0"
+  homepage: https://github.com/meshy-dev/meshy-3d-agent
 allowed-tools: Bash, Read, Write, Glob, Grep
 ---
 
