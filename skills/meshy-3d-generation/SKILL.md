@@ -122,12 +122,6 @@ Tell the user:
 >
 > **Note:** API access requires a **Pro plan or above**. Free-tier accounts cannot create API keys. If you see "Please upgrade to a premium plan to create API tasks", you'll need to upgrade at https://www.meshy.ai/pricing first.
 
-If the user just wants to test the workflow without signing up or paying, they can use the test-mode key:
-```
-msy_dummy_api_key_for_test_mode_12345678
-```
-This key works on all endpoints, consumes zero credits, and returns sample results.
-
 Once the user provides their key, set it and verify:
 
 ```bash

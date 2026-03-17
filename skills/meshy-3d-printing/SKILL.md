@@ -84,9 +84,9 @@ def open_in_bambu_studio(model_url, file_name="meshy_model.obj"):
 
 ---
 
-## Printability Checklist
+## Printability Checklist (Manual Review)
 
-Before printing, review these items:
+> **Note:** Automated printability analysis API is coming soon. For now, manually review the checklist below before printing.
 
 | Check | Recommendation |
 |-------|---------------|
@@ -111,9 +111,9 @@ Before printing, review these items:
 
 ---
 
-## Multi-Color Printing Guidance
+## Multi-Color Printing (Manual Guidance)
 
-Automated multi-color processing is not yet available. Current approach:
+> **Note:** Automated multi-color processing API is coming soon. For now, follow the manual approach below.
 
 1. Use the **Retexture** API (10 credits) to apply distinct color regions to your model
 2. Download the model as OBJ
@@ -124,11 +124,11 @@ For resin printing, consider painting the model after printing for best color re
 
 ---
 
-## Roadmap
+## Coming Soon
 
-The following features will be added to this skill as their APIs become available:
+The following features will be integrated into this skill as their APIs launch:
 
-- **Printability Fix API** — Automated mesh repair (fix non-manifold edges, thin walls, floating parts)
+- **Printability Analysis & Fix API** — Automated mesh analysis and repair (non-manifold edges, thin walls, floating parts)
 - **Multi-Color Processing API** — Automated color segmentation and filament assignment for AMS/MMU printers
 
 ---

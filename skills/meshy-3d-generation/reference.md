@@ -20,12 +20,6 @@ Authorization: Bearer msy_YOUR_API_KEY
 
 API keys are created at https://www.meshy.ai/settings/api and have the format `msy_<random-string>`.
 
-For development and testing, use the test mode API key:
-```
-msy_dummy_api_key_for_test_mode_12345678
-```
-This key works on all endpoints, consumes no credits, and returns sample results.
-
 ### 2. Asynchronous Task Model
 
 Meshy uses an asynchronous execution model. All generation endpoints return a task ID, not the result directly. You must poll the task status or use SSE streaming to get results.

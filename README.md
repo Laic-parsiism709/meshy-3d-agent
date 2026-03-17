@@ -30,9 +30,9 @@ Full 3D generation lifecycle: API key setup, task creation, polling, downloading
 | Capability | Description | Credits |
 |-----------|-------------|---------|
 | Print Pipeline | Text/Image to 3D → OBJ download → Slicer | 20 |
-| Printability Check | Wall thickness, overhangs, manifold mesh review | 0 |
+| Printability Check | Manual checklist review (automated API coming soon) | 0 |
 | Slicer Integration | Open in Bambu Studio via URL scheme | 0 |
-| Multi-Color Guidance | Color segmentation for AMS/MMU printers | 0-10 |
+| Multi-Color Guidance | Manual color workflow (automated API coming soon) | 0-10 |
 
 > The printing skill depends on the generation skill's script template and environment setup.
 
@@ -71,14 +71,6 @@ cp skills/meshy-3d-printing/SKILL.md .claude/skills/meshy-3d-printing.md
 
 ```bash
 export MESHY_API_KEY="msy_YOUR_API_KEY"
-```
-
-### Test Mode
-
-Use the test API key to try without credits:
-
-```bash
-export MESHY_API_KEY="msy_dummy_api_key_for_test_mode_12345678"
 ```
 
 ## Skill vs MCP Server
