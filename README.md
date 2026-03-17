@@ -172,9 +172,8 @@ cp skills/meshy-3d-printing/SKILL.md .claude/skills/meshy-3d-printing.md
 | Setup | Copy Markdown files | `npx meshy-mcp-server` |
 | Dependencies | Python 3 + requests | Node.js >= 18 |
 | How it works | AI reads instructions, makes API calls directly | Dedicated server process with structured tools |
-| IDE support | Cursor, Claude Code | Any MCP-compatible client |
+| IDE support | Amp, Cline, Codex, Cursor, Gemini CLI, Claude Code, OpenCode and 20+ more | Any MCP-compatible client |
 | File management | Via skill instructions | Built-in auto-save with project folders |
-| Best for | Quick setup, no Node.js needed | Structured tool integration, Smithery registry |
 
 Both approaches provide the same Meshy API capabilities. Choose based on your preference and setup.
 
