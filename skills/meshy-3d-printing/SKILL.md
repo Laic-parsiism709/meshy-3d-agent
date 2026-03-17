@@ -1,6 +1,6 @@
 ---
 name: meshy-3d-printing
-description: 3D print models generated with Meshy AI. Handles printability analysis, slicer integration (Bambu Studio), multi-color printing guidance, and print-optimized download workflows. Use when the user mentions 3D printing, slicing, Bambu, OrcaSlicer, Prusa, Cura, or wants to print a figurine, miniature, or physical model.
+description: 3D print models generated with Meshy AI. Handles printability analysis, slicer integration, multi-color printing guidance, and print-optimized download workflows. Use when the user mentions 3D printing, slicing, Bambu, OrcaSlicer, Prusa, Cura, Creality Print, or wants to print a figurine, miniature, or physical model.
 license: MIT
 compatibility: Requires Python 3 with requests package. Depends on meshy-3d-generation skill. Works with Claude Code, Cursor, and all Agent Skills compatible tools.
 metadata:
@@ -12,7 +12,7 @@ allowed-tools: Bash, Read, Write, Glob, Grep
 
 # Meshy 3D Printing
 
-Prepare and send Meshy-generated 3D models to a slicer for 3D printing. This skill covers the full print pipeline: generating print-ready models, checking printability, downloading in slicer-compatible formats, and opening in Bambu Studio.
+Prepare and send Meshy-generated 3D models to a slicer for 3D printing. This skill covers the full print pipeline: generating print-ready models, checking printability, downloading in slicer-compatible OBJ format, and opening in the user's preferred slicer software.
 
 **Prerequisite:** This skill works alongside `meshy-3d-generation`. The generation skill provides the reusable script template (`create_task`, `poll_task`, `download`, `get_project_dir`, etc.) and environment setup. If the model has not been generated yet, use `meshy-3d-generation` first.
 
@@ -35,7 +35,7 @@ When detected, guide the user through the appropriate print pipeline below.
 | 1. Preview | Text to 3D (`mode: "preview"`) | 20 | Untextured mesh (white model) |
 | 2. Printability Check | Review checklist below | 0 | Manual review |
 | 3. Download OBJ | Download model as OBJ | 0 | Slicer-compatible format |
-| 4. Open in Bambu Studio | URL scheme or manual import | 0 | See script below |
+| 4. Open in Slicer | Direct launch or manual import | 0 | See script below |
 | 5. (Optional) Multi-color | Refine + color guidance | 10 | See multi-color section |
 
 ## Image-to-3D Print Pipeline
@@ -45,7 +45,7 @@ When detected, guide the user through the appropriate print pipeline below.
 | 1. Generate | Image to 3D with `should_texture: False` | 20 | Untextured mesh |
 | 2. Printability Check | Review checklist below | 0 | Manual review |
 | 3. Download OBJ | Download model as OBJ | 0 | Slicer-compatible format |
-| 4. Open in Bambu Studio | URL scheme or manual import | 0 | See script below |
+| 4. Open in Slicer | Direct launch or manual import | 0 | See script below |
 | 5. (Optional) Multi-color | Retexture + color guidance | 10 | See multi-color section |
 
 ---
@@ -55,7 +55,7 @@ When detected, guide the user through the appropriate print pipeline below.
 Append this to the reusable script template from `meshy-3d-generation`:
 
 ```python
-import subprocess, urllib.parse
+import subprocess, shutil
 
 # After task SUCCEEDED, download OBJ format for printing
 obj_url = task["model_urls"].get("obj")
@@ -64,23 +64,23 @@ if not obj_url:
     print("Download GLB and import manually into your slicer.")
     obj_url = task["model_urls"].get("glb")
 
-download(obj_url, os.path.join(project_dir, "model.obj"))
-
-# --- Send to Bambu Studio via URL scheme ---
-def open_in_bambu_studio(model_url, file_name="meshy_model.obj"):
-    """Open model in Bambu Studio via URL scheme."""
-    url_with_fragment = f"{model_url}#/{file_name}"
-    if sys.platform == "darwin":
-        slicer_url = f"bambustudioopen://{urllib.parse.quote(url_with_fragment, safe='')}"
-    else:
-        slicer_url = f"bambustudio://open?file={urllib.parse.quote(url_with_fragment, safe='')}"
-    if sys.platform == "darwin":
-        subprocess.run(["open", slicer_url])
-    else:
-        print(f"Open in Bambu Studio: {slicer_url}")
-
-# open_in_bambu_studio(obj_url)
+obj_path = os.path.join(project_dir, "model.obj")
+download(obj_url, obj_path)
+print(f"\nModel ready for printing: {os.path.abspath(obj_path)}")
 ```
+
+### Opening OBJ in Slicer Software
+
+When the user specifies a slicer (e.g. Bambu Studio, OrcaSlicer, Creality Print, PrusaSlicer, Cura), use the following cross-platform pattern to open the downloaded OBJ file directly:
+
+- **macOS**: `subprocess.run(["open", "-a", "<AppName>", obj_path])`
+  - The OS resolves the app location automatically. Use the app display name, e.g. `"BambuStudio"`, `"OrcaSlicer"`, `"PrusaSlicer"`.
+- **Windows / Linux**: `shutil.which("<binary_name>")` to find the executable in PATH, then `subprocess.Popen([exe, obj_path])`.
+  - If not found in PATH, print the file path and instruct the user to open it manually.
+
+**If the user does NOT specify a slicer**, simply print the OBJ file path and instruct them to open it in their preferred slicer: File → Import / Open → select the .obj file.
+
+Common slicers for reference: Bambu Studio, OrcaSlicer, Creality Print, PrusaSlicer, Cura — but accept any slicer the user names.
 
 ---
 
@@ -103,11 +103,11 @@ def open_in_bambu_studio(model_url, file_name="meshy_model.obj"):
 
 ## Key Rules for Print Workflow
 
-- **Default download format is OBJ** for slicer compatibility (3MF not yet available from API)
-- **Agent skill currently only supports sending to Bambu Studio.** For more slicer options (OrcaSlicer, Cura, Creality Print, etc.), use the webapp at https://www.meshy.ai
+- **Always download OBJ format** for slicer compatibility (3MF not yet available from API)
+- **If the user specifies a slicer**, try to open the OBJ file directly using the cross-platform pattern above
+- **If the user does NOT specify a slicer**, print the file path and guide them to import manually: File → Import / Open → select .obj file
 - After opening in slicer, remind user to check print settings (layer height, infill, supports)
 - **If OBJ is not available**: Download GLB and guide user to import manually
-- **Manual import into Bambu Studio** (when URL scheme fails): File → Import → select file
 
 ---
 

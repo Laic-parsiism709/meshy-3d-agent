@@ -1,6 +1,6 @@
 ---
 name: meshy-3d-agent
-description: Generate 3D models, textures, images, rig characters, animate them, and prepare for 3D printing using the Meshy AI API. Handles API key detection, task creation, polling, downloading, and full 3D print pipeline with Bambu Studio integration. Use when the user asks to create 3D models, convert text/images to 3D, texture models, rig or animate characters, 3D print a model, or interact with the Meshy API.
+description: Generate 3D models, textures, images, rig characters, animate them, and prepare for 3D printing using the Meshy AI API. Handles API key detection, task creation, polling, downloading, and full 3D print pipeline with slicer integration. Use when the user asks to create 3D models, convert text/images to 3D, texture models, rig or animate characters, 3D print a model, or interact with the Meshy API.
 license: MIT-0
 compatibility: Requires Python 3 with requests package. Compatible with OpenClaw and all Agent Skills tools.
 metadata:
@@ -20,7 +20,7 @@ allowed-tools: Bash, Write
 
 # Meshy 3D — Generation + Printing
 
-Directly communicate with the Meshy AI API to generate and print 3D assets. Covers the complete lifecycle: API key setup, task creation, exponential backoff polling, downloading, multi-step pipelines, and 3D print preparation with Bambu Studio integration.
+Directly communicate with the Meshy AI API to generate and print 3D assets. Covers the complete lifecycle: API key setup, task creation, exponential backoff polling, downloading, multi-step pipelines, and 3D print preparation with slicer integration.
 
 ---
 
@@ -519,7 +519,7 @@ Trigger when the user mentions: print, 3d print, slicer, slice, bambu, orca, pru
 | 1 | Text to 3D (`mode: "preview"`, no texture) | 20 |
 | 2 | Printability check (see checklist) | 0 |
 | 3 | Download OBJ | 0 |
-| 4 | Open in Bambu Studio | 0 |
+| 4 | Open in slicer (direct launch or manual import) | 0 |
 | 5 (optional) | Retexture for multi-color | 10 |
 
 **Image-to-3D Print:**
@@ -528,14 +528,14 @@ Trigger when the user mentions: print, 3d print, slicer, slice, bambu, orca, pru
 | 1 | Image to 3D with `should_texture: False` | 20 |
 | 2 | Printability check | 0 |
 | 3 | Download OBJ | 0 |
-| 4 | Open in Bambu Studio | 0 |
+| 4 | Open in slicer (direct launch or manual import) | 0 |
 
 ### Print Download + Slicer Script
 
 Append to the template after task SUCCEEDED:
 
 ```python
-import subprocess, urllib.parse
+import subprocess, shutil
 
 # Download OBJ for printing
 obj_url = task["model_urls"].get("obj")
@@ -544,20 +544,16 @@ if not obj_url:
     print("Download GLB and import manually into your slicer.")
     obj_url = task["model_urls"].get("glb")
 
-download(obj_url, os.path.join(project_dir, "model.obj"))
-
-# Open in Bambu Studio via URL scheme
-def open_in_bambu_studio(model_url, file_name="meshy_model.obj"):
-    url_with_fragment = f"{model_url}#/{file_name}"
-    if sys.platform == "darwin":
-        slicer_url = f"bambustudioopen://{urllib.parse.quote(url_with_fragment, safe='')}"
-        subprocess.run(["open", slicer_url])
-    else:
-        slicer_url = f"bambustudio://open?file={urllib.parse.quote(url_with_fragment, safe='')}"
-        print(f"Open in Bambu Studio: {slicer_url}")
-
-# open_in_bambu_studio(obj_url)
+obj_path = os.path.join(project_dir, "model.obj")
+download(obj_url, obj_path)
+print(f"\nModel ready for printing: {os.path.abspath(obj_path)}")
 ```
+
+**Opening OBJ in slicer:** When the user specifies a slicer (e.g. Bambu Studio, OrcaSlicer, Creality Print, PrusaSlicer, Cura), open the downloaded OBJ file directly:
+
+- **macOS**: `subprocess.run(["open", "-a", "<AppName>", obj_path])` — the OS resolves the app location automatically.
+- **Windows / Linux**: Use `shutil.which("<binary_name>")` to find the executable in PATH, then `subprocess.Popen([exe, obj_path])`. If not found, print the file path and instruct manual open.
+- **No slicer specified**: Print the OBJ file path and instruct: File → Import / Open → select .obj file.
 
 ### Printability Checklist (Manual Review)
 
@@ -621,7 +617,7 @@ Task `FAILED` messages:
 - **PBR maps**: Must set `enable_pbr: true` explicitly.
 - **Refine**: Only `meshy-5` / `latest` previews support refine; `meshy-6` does not.
 - **Rigging**: Humanoid bipedal only, polycount ≤ 300,000.
-- **OBJ for printing**: 3MF not yet available from API; use OBJ for slicer compatibility.
+- **OBJ for printing**: Always download OBJ for slicer compatibility (3MF not yet available from API). If user specifies a slicer, try to open OBJ directly; otherwise print file path for manual import.
 - **Timestamps**: All API timestamps are Unix epoch **milliseconds**.
 
 ---
